@@ -1,0 +1,20 @@
+{
+  "name": "@agnerh/custom-element",
+  "version": "0.1.0",
+  "description": "This package contain the basic building blocks for creating custom elements",
+  "main": "custom-element.decorator.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agnerh/custom-element"
+  },
+  "files": ["dist/**/*"],
+  "keywords": [
+    "typescript",
+    "custom element",
+    "web component"
+  ],
+  "author": "agnerh",
+  "devDependencies": {
+    "typescript": "^4.0.5"
+  }
+}
