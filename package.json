@@ -1,8 +1,9 @@
 {
   "name": "@agnerh/custom-element",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "This package contain the basic building blocks for creating custom elements",
-  "main": "custom-element.decorator.js",
+  "main": "dist/custom-element.decorator.js",
+  "types": "dist/custom-element.decorator.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/agnerh/custom-element"

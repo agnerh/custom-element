@@ -18,7 +18,10 @@ export function customElement(settings: ICustomElementSettings) {
             }
         }
 
-        customElements.define(settings.name, customElementCreator);
+        if (!customElements.get(settings.name)) {
+            customElements.define(settings.name, customElementCreator);
+        }
+        
         return customElementCreator;
     }
 }
