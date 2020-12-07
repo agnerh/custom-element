@@ -1,12 +1,8 @@
 {
-  "name": "@agnerh/custom-element",
-  "version": "0.1.2",
+  "author": "agnerh",
   "description": "This package contain the basic building blocks for creating custom elements",
-  "main": "dist/custom-element.decorator.js",
-  "types": "dist/custom-element.decorator.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/agnerh/custom-element"
+  "devDependencies": {
+    "typescript": "^4.0.5"
   },
   "files": ["dist/**/*"],
   "keywords": [
@@ -14,8 +10,16 @@
     "custom element",
     "web component"
   ],
-  "author": "agnerh",
-  "devDependencies": {
-    "typescript": "^4.0.5"
-  }
+  "main": "dist/umd/custom-element.decorator.js",
+  "module": "./dist/esm/custom-element.decorator.js",
+  "name": "@agnerh/custom-element",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agnerh/custom-element"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig-esm.json && tsc -p tsconfig-umd.json"
+  },
+  "types": "dist/umd/custom-element.decorator.d.ts",
+  "version": "0.1.3"
 }
