@@ -10,8 +10,8 @@
     "custom element",
     "web component"
   ],
-  "main": "dist/umd/custom-element.decorator.js",
-  "module": "./dist/esm/custom-element.decorator.js",
+  "main": "dist/umd/index.js",
+  "module": "./dist/esm/index.js",
   "name": "@agnerh/custom-element",
   "repository": {
     "type": "git",
@@ -20,6 +20,6 @@
   "scripts": {
     "build": "tsc -p tsconfig-esm.json && tsc -p tsconfig-umd.json"
   },
-  "types": "dist/umd/custom-element.decorator.d.ts",
-  "version": "0.1.3"
+  "types": "dist/umd/index.d.ts",
+  "version": "0.1.4"
 }
