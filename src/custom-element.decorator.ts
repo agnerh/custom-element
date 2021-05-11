@@ -18,7 +18,7 @@ export function customElement(settings: ICustomElementSettings) {
             }
         }
 
-        if (customElements && !customElements.get(settings.name)) {
+        if (typeof customElements !== "undefined" && customElements !== null && !customElements.get(settings.name)) {
             customElements.define(settings.name, customElementCreator);
         }
         
