@@ -3,9 +3,10 @@ import { createTemplate } from './create-template';
 import { setTabIndex } from './tabIndex';
 
 export function customElement(settings: ICustomElementSettings) {
-    return function <T extends CustomElementConstructor>(constructorFunction: T) {
+    return function <T extends CustomElementConstructor>(constructorFunction: T): T {
 
         class customElementCreator extends constructorFunction {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             constructor(...args: Array<any>) {
                 super(args);
 

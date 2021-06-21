@@ -8,7 +8,12 @@ export function createTemplate(settings: ICustomElementSettings): HTMLTemplateEl
     return createTemplateElement(html, styles, externalStyleSheets);
 }
 
-function createTemplateElement(html: string, style: Partial<CSSStyleDeclaration>, externalStyleSheets: string): HTMLTemplateElement {
+function createTemplateElement(
+    html: string, 
+    style: Partial<CSSStyleDeclaration>,
+    externalStyleSheets: string
+): HTMLTemplateElement {
+
     if (!html) {
         throw new Error("Could not parse html of component");
     }

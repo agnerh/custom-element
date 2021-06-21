@@ -2,9 +2,14 @@
   "author": "agnerh",
   "description": "This package contain the basic building blocks for creating custom elements",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
+    "eslint": "^7.29.0",
     "typescript": "^4.0.5"
   },
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "keywords": [
     "typescript",
     "custom element",
@@ -18,7 +23,8 @@
     "url": "https://github.com/agnerh/custom-element"
   },
   "scripts": {
-    "build": "tsc -p tsconfig-esm.json && tsc -p tsconfig-umd.json"
+    "build": "tsc -p tsconfig-esm.json && tsc -p tsconfig-umd.json",
+    "lint": "eslint src --ext .ts"
   },
   "types": "dist/umd/index.d.ts",
   "version": "0.1.7"

@@ -1,5 +1,5 @@
-export function attribute(settings?: IAttributeSettings): any {
-    return (object: any, key: PropertyKey) => {
+export function attribute(settings?: IAttributeSettings): unknown {
+    return (object: unknown, key: PropertyKey) => {
         const attr = settings?.name ?? key.toString();
         const type = settings?.type ?? "string";
 

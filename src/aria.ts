@@ -3,7 +3,7 @@ export function setAriaAttributes(element: HTMLElement, attributes: Array<[strin
         return;
     }
     
-    for (const attributeKeyValuePair in attributes) {
+    for (const attributeKeyValuePair of attributes) {
         const [attribute, value] = attributeKeyValuePair;
 
         element.setAttribute(attribute, value);
