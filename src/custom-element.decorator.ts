@@ -1,20 +1,16 @@
+import { setAriaAttributes } from './aria';
 import { createTemplate } from './create-template';
-
-type Constructor = { new(...args: Array<any>): any };
+import { setTabIndex } from './tabIndex';
 
 export function customElement(settings: ICustomElementSettings) {
-    return function <T extends Constructor>(constructorFunction: T) {
+    return function <T extends CustomElementConstructor>(constructorFunction: T) {
 
         class customElementCreator extends constructorFunction {
             constructor(...args: Array<any>) {
                 super(args);
 
-                this.attachShadow({ mode: "open" });
                 const template = createTemplate(settings);
-                
-                if (template) {
-                    this.shadowRoot.appendChild(template.content.cloneNode(true));
-                }
+                createElement(this, template, settings);
             }
         }
 
@@ -26,9 +22,23 @@ export function customElement(settings: ICustomElementSettings) {
     }
 }
 
+function createElement(parent: HTMLElement, template: HTMLTemplateElement, settings: ICustomElementSettings): void {
+    if (!template) {
+        return;
+    }
+
+    parent.attachShadow({ mode: "open" });
+    parent.shadowRoot.appendChild(template.content.cloneNode(true));
+    
+    setAriaAttributes(parent, settings.ariaAttributes);
+    setTabIndex(parent, settings.tabIndex);
+}
+
 export interface ICustomElementSettings {
+    ariaAttributes?: Array<[string, string]>;
     externalStyleSheets?: Array<string>;
     html?: string;
     name: string;
     styles?: Partial<CSSStyleDeclaration>;
+    tabIndex?: number;
 }
