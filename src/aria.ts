@@ -1,5 +1,5 @@
 export function setAriaAttributes(element: HTMLElement, attributes: Array<[string, string]>): void {
-    if (!element || !element.setAttribute) {
+    if (!element || !element.setAttribute || !attributes) {
         return;
     }
     
