@@ -1,8 +1,10 @@
+import "reflect-metadata";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function attribute(settings?: IAttributeSettings): any {
     return (object: any, key: PropertyKey) => {
         const attr = settings?.name ?? key.toString();
-        const type = settings?.type ?? "string";
+        const type = getAttributeType(object, key);
 
         const getter = function(this: HTMLElement): boolean | number | string {
             return getAttributeValue(this, attr, type);
@@ -24,11 +26,21 @@ export function attribute(settings?: IAttributeSettings): any {
 }
 
 export interface IAttributeSettings {
-    name?: string
-    type?: AttributeType,
+    name?: string;
 }
 
 export type AttributeType = "boolean" | "number" | "string";
+
+function getAttributeType(object: any, key: PropertyKey): AttributeType {
+    let type: AttributeType = "string";
+
+    const ctor = Reflect.getMetadata("design:type", object, key.toString());
+    if (ctor && ctor.name && (ctor.name === "String" || ctor.name === "Boolean" || ctor.name === "Number")) {
+        type = (ctor.name as string).toLowerCase() as AttributeType;
+    }
+
+    return type;
+}
 
 function getAttributeValue(element: HTMLElement, attribute: string, type: AttributeType): boolean | number | string {
     if (type === "boolean") {

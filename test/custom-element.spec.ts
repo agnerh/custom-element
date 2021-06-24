@@ -35,14 +35,34 @@ describe("Custom elements", async () => {
         expect(role).toBe(testRole);
     });
 
-    it("Should update text from attribute", async () => {
+    it("Should update text from string attribute", async () => {
         const newText = "This is the new text";
         const spanner = el.shadowRoot.querySelector(".spanner") as HTMLSpanElement;
-        el.attr = newText;
+        el.strattr = newText;
 
         await elementUpdated(el);
 
         expect(spanner.innerText).toBe(newText);
+    });
+
+    it("Should update value from number attribute", async () => {
+        const newNumber = 4;
+        const input = el.shadowRoot.querySelector(".inp") as HTMLInputElement;
+        el.numattr = newNumber;
+
+        await elementUpdated(el);
+
+        expect(input.value).toBe(newNumber.toString());
+    });
+
+    it("Should update text from boolean attribute", async () => {
+        const newBool = true;
+        const paragraph = el.shadowRoot.querySelector(".paragraph") as HTMLParagraphElement;
+        el.boolattr = newBool;
+
+        await elementUpdated(el),
+
+        expect(paragraph.innerText).toBe(newBool.toString());
     });
 
     it("Should have the correct tab index", () => {
