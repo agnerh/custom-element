@@ -41,5 +41,5 @@
     "test:interactive": "karma start karma.config.js"
   },
   "types": "dist/umd/index.d.ts",
-  "version": "0.1.7"
+  "version": "0.2.1"
 }
