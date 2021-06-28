@@ -1,28 +1,26 @@
 import "reflect-metadata";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export function attribute(settings?: IAttributeSettings): any {
-    return (object: any, key: PropertyKey) => {
-        const attr = settings?.name ?? key.toString();
-        const type = getAttributeType(object, key);
+export const attribute = (settings?: IAttributeSettings) => (object: any, key: PropertyKey) => {
+    const attr = settings?.name ?? key.toString();
+    const type = getAttributeType(object, key);
 
-        const getter = function(this: HTMLElement): boolean | number | string {
-            return getAttributeValue(this, attr, type);
-        }
-
-        const setter = function(this: HTMLElement, value: boolean | number | string): void {
-            setAttributeValue(this, attr, value);
-        }
-
-        const descriptor = {
-            configurable: true,
-            enumerable: true,
-            get: getter,
-            set: setter
-        };
-
-        return Object.defineProperty(object, key, descriptor);
+    const getter = function(this: HTMLElement): boolean | number | string {
+        return getAttributeValue(this, attr, type);
     }
+
+    const setter = function(this: HTMLElement, value: boolean | number | string): void {
+        setAttributeValue(this, attr, value);
+    }
+
+    const descriptor = {
+        configurable: true,
+        enumerable: true,
+        get: getter,
+        set: setter
+    };
+
+    Object.defineProperty(object, key, descriptor);
 }
 
 export interface IAttributeSettings {
