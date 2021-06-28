@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const attribute = (settings?: IAttributeSettings) => (object: any, key: PropertyKey) => {
+export const attribute = (settings?: IAttributeSettings) => (object: unknown, key: PropertyKey): void => {
     const attr = settings?.name ?? key.toString();
     const type = getAttributeType(object, key);
 
