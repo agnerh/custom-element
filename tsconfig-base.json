@@ -9,4 +9,5 @@
       "preserveConstEnums": true,
       "sourceMap": true
     },
+    "include": [ "src/**/*.ts" ]
 }
