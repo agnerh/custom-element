@@ -11,7 +11,16 @@ export function customElement(settings: ICustomElementSettings) {
                 super(args);
 
                 const template = createTemplate(settings);
-                createElement(this, template, settings);
+                createElement(this, template);
+            }
+
+            public connectedCallback(): void {
+                setAriaAttributes(this, settings.ariaAttributes);
+                setTabIndex(this, settings.tabIndex);
+                
+                if (super["connectedCallback"]) {
+                    super["connectedCallback"]();
+                }
             }
         }
 
@@ -23,16 +32,13 @@ export function customElement(settings: ICustomElementSettings) {
     }
 }
 
-function createElement(parent: HTMLElement, template: HTMLTemplateElement, settings: ICustomElementSettings): void {
+function createElement(parent: HTMLElement, template: HTMLTemplateElement): void {
     if (!template) {
         return;
     }
 
     parent.attachShadow({ mode: "open" });
     parent.shadowRoot.appendChild(template.content.cloneNode(true));
-    
-    setAriaAttributes(parent, settings.ariaAttributes);
-    setTabIndex(parent, settings.tabIndex);
 }
 
 export interface ICustomElementSettings {
