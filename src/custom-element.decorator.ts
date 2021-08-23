@@ -11,12 +11,23 @@ export function customElement(settings: ICustomElementSettings) {
                 super(args);
 
                 const template = createTemplate(settings);
+
+                // IE compatability
+                if (window.ShadyCSS) {
+                    window.ShadyCSS.prepareTemplate(template, settings.name);
+                }
+
                 createElement(this, template);
             }
 
             public connectedCallback(): void {
                 setAriaAttributes(this, settings.ariaAttributes);
                 setTabIndex(this, settings.tabIndex);
+
+                // IE compatability
+                if (window.ShadyCSS) {
+                    window.ShadyCSS.styleElement(this);
+                }
                 
                 if (super["connectedCallback"]) {
                     super["connectedCallback"]();
