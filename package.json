@@ -39,9 +39,10 @@
   "scripts": {
     "build": "tsc -p tsconfig-esm.json && tsc -p tsconfig-umd.json",
     "lint": "eslint src --ext .ts",
+    "preyalcpublish": "npm run build",
     "test": "karma start karma.config.js --browsers ChromeHeadless --single-run",
     "test:interactive": "karma start karma.config.js"
   },
   "types": "dist/umd/index.d.ts",
-  "version": "0.2.5"
+  "version": "0.3.1"
 }

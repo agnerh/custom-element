@@ -1,5 +1,6 @@
 import { setAriaAttributes } from './aria';
 import { createTemplate } from './create-template';
+import { ICustomElementSettings } from './interfaces';
 import { setTabIndex } from './tabIndex';
 
 export function customElement(settings: ICustomElementSettings) {
@@ -52,11 +53,3 @@ function createElement(parent: HTMLElement, template: HTMLTemplateElement): void
     parent.shadowRoot.appendChild(template.content.cloneNode(true));
 }
 
-export interface ICustomElementSettings {
-    ariaAttributes?: Array<[string, string]>;
-    externalStyleSheets?: Array<string>;
-    html?: string;
-    name: string;
-    styles?: Partial<CSSStyleDeclaration>;
-    tabIndex?: number;
-}

@@ -1,17 +1,17 @@
-import { ICustomElementSettings } from "./custom-element.decorator";
+import { ConditionalStyle, ExternalStyle, ICustomElementSettings, Style } from "./interfaces";
 
 export function createTemplate(settings: ICustomElementSettings): HTMLTemplateElement {
     const html = getHtml(settings.html);
     const styles = getStyles(settings.styles);
-    const externalStyleSheets = getExternalStyleSheets(settings.externalStyleSheets);
+    // const externalStyleSheets = getExternalStyleSheets(settings.externalStyleSheets);
+    // const styles = getStyles(settings.styles, externalStyleSheets);
 
-    return createTemplateElement(html, styles, externalStyleSheets);
+    return createTemplateElement(html, styles);
 }
 
 function createTemplateElement(
     html: string, 
     style: Partial<CSSStyleDeclaration>,
-    externalStyleSheets: string
 ): HTMLTemplateElement {
 
     if (!html) {
@@ -20,19 +20,12 @@ function createTemplateElement(
 
     const template = document.createElement("template");    
     const innerHTML = `
-        ${externalStyleSheets}
         ${style}
         ${html}
-    `
+    `;
 
     template.innerHTML = innerHTML;
     return template;
-}
-
-function getExternalStyleSheets(externalStyleSheets?: Array<string>): string {
-    return externalStyleSheets
-        ? externalStyleSheets.map(styleSheet => `<link rel="stylesheet" href="${styleSheet}">`).join("\n")
-        : "";
 }
 
 function getHtml(html: string): string {
@@ -45,12 +38,68 @@ function getHtml(html: string): string {
     return computedHtml ? computedHtml : "";
 }
 
-function getStyles(style: Partial<CSSStyleDeclaration>): Partial<CSSStyleDeclaration> {
-    let computedStyle: Partial<CSSStyleDeclaration>;
-
-    if (style) {
-        computedStyle = style;
+function getStyles(style: Style | Array<Style>): Partial<CSSStyleDeclaration> {
+    if (!style) {
+        return "";
     }
 
-    return computedStyle ? `<style>${computedStyle}</style>` : "";
+    if (typeof style === "string") {
+        return getStyleSheet(style);
+    }
+
+    if (!Array.isArray(style)) {
+        return "";
+    }
+    
+    return style.map(s => getStyleSheet(s))
+        .filter(style => !!style)
+        .join("");
+}
+
+function getStyleSheet(sheet: Style): string {
+    if (!sheet) {
+        return "";
+    }
+
+    if (typeof sheet === "string") {
+        return `<style>${sheet}</style>`;
+    }
+
+    if ("url" in sheet) {
+        return getExternalStyleSheet(sheet);
+    }
+
+    if ("condition" in sheet) {
+        return getConditionalSheet(sheet);
+    }
+
+    return "";
+}
+
+function getExternalStyleSheet(externalStyleSheet: ExternalStyle): string {
+    if (!externalStyleSheet) {
+        return "";
+    }
+
+    return `<link rel="stylesheet" href="${externalStyleSheet.url}">`;
+}
+
+function getConditionalSheet(conditionalSheet: ConditionalStyle): string {
+    if (!conditionalSheet || !conditionalSheet.value) {
+        return "";
+    }
+
+    let conditionCheck = false;
+    if (typeof conditionalSheet.condition === "function") {
+        conditionCheck = conditionalSheet.condition();
+    } else {
+        conditionCheck = conditionalSheet.condition;
+    }
+
+    // Avoid circular references
+    if (typeof conditionalSheet.value === "object" && "condition" in conditionalSheet.value) {
+        return "";
+    }
+
+    return conditionCheck ? getStyleSheet(conditionalSheet.value) : "";
 }
